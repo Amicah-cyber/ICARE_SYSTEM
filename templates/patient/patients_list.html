@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load countries %}
+{% get_countries as countries %}
+
+
+<!--Main layout-->
+  <main style="margin-top: 58px">
+    <div class="container pt-4">
+      <!-- Section: Main chart -->
+      <section class="container-fluid pt-4 px-4">
+        <div class="card">
+          <div class="card-header py-3"> 
+            <div class="row float-right">
+              <div class="col-md-12 mb-4 ">
+                {% if user.user_roles != "Doctor" %}
+                <a class="btn btn-sm btn-dark" href="{% url 'createPatient' %}" ><i class="fa fa-plus"></i> Add Patient</a> 
+                {% endif %}
+              </div>
+            </div>
+            <h5 class="mb-0 text-center"><strong>Patients</strong></h5>
+          </div>
+          <div class="card-body">              
+            <div class="row">
+              <div class="col-md-6 mb-4">
+              	<label for="countries" class="col-sm-4 control-label">Search by Name</label>
+                <form class="d-none d-md-flex ms-4" action="{% url 'SearchPatients' %}">
+                  <input autocomplete="off" type="search" class="form-control rounded"
+                    placeholder='Search Patients' name="q" style="min-width: 225px" />
+                  <span class="input-group-text border-0"><i class="fa fa-search"></i></span>
+                </form>
+              </div>
+              <div class="col-md-6 mb-4">
+              	<label for="countries" class="col-sm-4 control-label">Search by Country</label>
+                <form class="d-none d-md-flex search-group w-auto my-auto" action="{% url 'SearchPatients' %}">
+                <input list="countries" id="q" name="q" class="form-control"/>
+                <datalist id="countries" name="q">
+                  <option>Country</option>
+                  {% for country in countries %}
+                  <option value="{{ country.code }}">{{ country.name }}</option>
+                  {% endfor%}
+                </datalist>
+                <input class="btn btn-sm btn-dark" type="submit">
+                </form>
+              </div>
+            </div>
+          </div>
+      </section>
+      <!-- Section: Main chart -->
+
+      <!--Section: Sales Performance KPIs-->
+
+
+         <div class="container-fluid pt-4 px-4">
+                <div class="bg-light text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Patients</h6>
+                        <a href="">Show All</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table text-start align-middle table-bordered table-hover mb-0">
+                            <thead>
+                                <tr class="text-dark">
+                                    <th scope="col"><input class="form-check-input" type="checkbox"></th>
+                                    <th scope="col">Names</th>
+                                    <th scope="col">National Id</th>
+                                    <th scope="col">Patient Id</th>
+                                    <th scope="col">Medicare No</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Action</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              {% for patient in patient_list.all %}
+                                <tr>
+                                    <td><input class="form-check-input" type="checkbox"></td>
+                                    <th scope="row"><a class="" href="{% url 'patientprofile' patient.id %}">{{patient.first_name}} {{patient.last_name}}</a></th>
+                                    <td>{{patient.national_id}}</td>
+                                    <td>{{patient.patient_id}}</td>
+                                    <td>{{patient.medcare}}</td>
+                                    <td>{{patient.status}}</td>
+                                    {% if patient.status == 'UnAssigned' and user.user_roles != "Doctor" %}
+                                    <td><a href="{% url 'assignPatient' patient.id %}" class="btn btn-sm btn-primary">Assign</a></td>
+                                    {% elif patient.status == 'Waiting' and user.user_roles != "Doctor"%}
+                                    <td><a href="{% url 'servePatient' patient.id %}" class="btn btn-sm btn-primary">Serve</a></td>
+                                    {% elif patient.status == 'Inservice' and user.user_roles != "Doctor" %}
+                                    <td><a href="{% url 'unservePatient' patient.id %}" class="btn btn-sm btn-primary">Unassign</a></td>
+                                    {% endif %}
+                                    {% if patient.status == 'Waiting' and user.user_roles != "Doctor" %}
+                                    <td><a href="{% url 'unservePatient' patient.id  %}" class="btn btn-sm btn-primary">Unassign</a></td>
+                                    {% elif patient.status == 'Inservice' and user.user_roles != "Doctor" %}
+                                    <td><a href="{% url 'servePatient' patient.id %}" class="btn btn-sm btn-primary">Served</a></td>
+                                    {% endif %}
+                                </tr>
+                              {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+      <!--Section: Sales Performance KPIs-->
+    </div>
+  </main>
+  <!--Main layout-->
+  <!-- MDB -->
+{% endblock content %}

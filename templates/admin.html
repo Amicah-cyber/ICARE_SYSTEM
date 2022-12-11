@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load countries %}
+{% get_countries as countries %}
+
+
+<!--Main layout-->
+  
+      <!-- Section: Main chart -->
+      
+
+        
+          
+      <!-- Section: Main chart -->
+      {% if request.user %}
+          <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="bg-light rounded d-flex align-items-center justify-content-between p-3">
+                            <i class="fas fa-stethoscope fa-3x text-primary"></i>
+                            <div class="ms-3">
+                              <a href="{% url 'viewpatients' slug='Served' %}" class="text-dark">
+                                <p class="mb-2">Served Patients</p>
+                                <h6  class="mb-0">{{Served_patients}}</h6>
+                              </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="bg-light rounded d-flex align-items-center justify-content-between p-3">
+                            <i class="fa fa-user fa-3x text-primary"></i>
+                            <div class="ms-3">
+                              <a href="{% url 'viewpatients' slug='Inservice' %}" class="text-dark">
+                                <p class="mb-2">Serving Patients</p>
+                                <h6 class="mb-0">{{Inservice_patients}}</h6>
+                              </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="bg-light rounded d-flex align-items-center justify-content-between p-3">
+                            <i class="fas fa-stethoscope fa-3x text-primary"></i>
+                            <div class="ms-3">
+                              <a href="{% url 'viewpatients' slug='Waiting' %}" class="text-dark">
+                                <p class="mb-2">Patients Waiting</p>
+                                <h6 class="mb-0">{{Waiting_patients}}</h6>
+                              </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="bg-light rounded d-flex align-items-center justify-content-between p-3">
+                            <i class="fas fa-users fa-3x text-primary"></i>
+                            <div class="ms-3">
+                              <a href="{% url 'viewpatients' slug='a' %}" class="text-dark">
+                                <p class="mb-2">Assigned Patients</p>
+                                <h6 class="mb-0">{{Patients_count}}</h6>
+
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          {% endif %}
+
+
+      <!--Section: Sales Performance KPIs-->
+
+            <div class="container-fluid pt-4 px-4">
+                <div class="bg-light text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Patients</h6>
+                         <form class="d-none d-md-flex search-group w-auto my-auto" action="{% url 'SearchPatientsHome' %}">
+                            <input list="countries" id="q" name="q" class="form-control" placeholder="Filter By Country"/>
+                            <datalist id="countries" name="q">
+                            <option>Country</option>
+                            {% for country in countries %}
+                            <option value="{{ country.code }}">{{ country.name }}</option>
+                            {% endfor%}
+                            </datalist>
+                            <input class="btn btn-sm btn-dark" type="submit">
+                        </form>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table text-start align-middle table-bordered table-hover mb-0">
+                            <thead>
+                                <tr class="text-dark">
+                                    <th scope="col">#</th>
+                                    <th scope="col">Patients ID</th>
+                                    <th scope="col">Patient</th>
+                                    <th scope="col">Visits</th>
+                                    <th scope="col">National Id</th>
+                                    <th scope="col">Medicare No</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              {% for patient in patients_list.all %}
+                                <tr>
+                                    <th scope="row">{{forloop.counter}}</th>
+                                    <th scope="row"><a class="" href="{% url 'patientprofile' patient.id %}">{{patient.patient_id}}</a></th>
+                                    <td><a class="" href="{% url 'patientprofile' patient.id %}">{{patient.first_name}} {{patient.last_name}}</a></td>
+                                    <td>{{patient.get_visits}}</td>
+                                    <td>{{patient.national_id}}</td>                 
+                                    <td>{{patient.medcare}}</td>
+                                    <td>{{patient.status}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+{% endblock content %}

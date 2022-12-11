@@ -1,0 +1,89 @@
+<head>
+<style>
+@page {
+        size: a4 portrait;
+        @frame header_frame {           /* Static Frame */
+            -pdf-frame-content: header_content;
+            left: 50pt; width: 512pt; top: 50pt; height: 40pt;
+        }
+        @frame content_frame {          /* Content Frame */
+            left: 50pt; width: 512pt; top: 90pt; height: 632pt;
+        }
+        @frame footer_frame {           /* Another static Frame */
+            -pdf-frame-content: footer_content;
+            left: 50pt; width: 512pt; top: 772pt; height: 20pt;
+        }
+    }
+  th{
+     text-align: left;
+  }
+</style>
+</head>
+<!--Main layout-->
+<body>
+
+    
+      <div>
+        <h2>Medical Status Report </h2>     
+      </div>
+
+          <!--div 1 0f form-->
+            <h4>Staff Information: </h4>
+              <table>
+              <tr>
+                <th>Staff</th>
+                <th>Date</th> 
+              </tr>
+              <tr>
+                <td>{{staff}}</td>
+                <td>{{date}}</td>
+              </tr>
+              </table> 
+          
+              <h4>Patients Information: </h4>
+            <table >
+              <tr>
+                <th>First Name: </th>
+                <th>Last Name: </th>
+                <th>City: </th>
+                <th>Blood Type</th>
+                <th>Pin Code: </th>
+                <th>Medicare No: </th>
+              </tr>
+              <tr>
+                <td>{{first_name }}</td>
+                <td>{{last_name }}</td>
+                <td>{{city }}</td>
+                <td>{{blood_type }}</td>
+                <td>{{pincode }}</td>
+                <td>{{medcare }}</td>
+              </tr>
+            </table>
+
+          </br>
+          </br>
+          <!--div 1 of fomr ends above-->
+          <!--div 2 of form starts below-->
+          <table>
+            <tr>
+              <th>
+                <h4>Diagnosis: </h4>
+              </th>
+              <th>
+              <h4>Medical History: </h4>  
+              </th>
+            </tr>
+              <tr>
+              <td><p>{{diagnosis }}</p></td>
+               <td> <p>{{medical_history }}</p></td>
+            </tr>
+          </table>
+          <!--branch 2 ends above-->
+          <!--btn row-->
+          
+          <!--btn row ends above-->
+    <div id="footer_content">(c) - page <pdf:pagenumber>
+        of <pdf:pagecount>
+    </div>
+
+</body>

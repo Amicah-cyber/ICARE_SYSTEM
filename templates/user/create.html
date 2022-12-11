@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% load l10n %}
+{% block content %}
+<!--content goes below-->
+<main style="margin-top: 20px">
+  <div class="container pt-4">
+
+    <!--form div starts below-->
+    <h5 class="h4 mb-3"><i class="fa fa-plus padd"></i> Create Staff</h5>
+    <div class="bg-light rounded p-4">
+        <form id="createuserform" class="col-sm-12 col-xl-6" role="form" method="POST">
+          {% csrf_token %}
+          <!--div 1 0f form-->
+          <div class="box-form">
+              <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="floatingInput" name="first_name"
+                      placeholder="john/jane">
+                  <label for="floatingInput">First Name *</label>
+              </div>
+              <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="floatingInput" name="last_name"
+                      placeholder="doe">
+                  <label for="floatingInput">Last Name *</label>
+              </div>
+            <div class="form-group mb-3">
+              <label for="inputEmail3" class="col-sm-4 control-label">Gender <span>*</span></label>
+              <div class="col-sm-8 mar-top-rad">
+                <input type="radio" name="gender" value="M"> Male &nbsp;&nbsp;
+                <input type="radio" name="gender" value="F"> Female
+                <span id="gender"></span>
+              </div>
+            </div>
+
+            <div class="form-floating mb-3">
+                <select class="form-select" id="floatingSelect" name="user_roles" 
+                    aria-label="Floating label select example">
+                    <option selected>User Roles</option>
+                    {% for key, role in userroles %}
+                    <option value="{{ role }}">{{ role }}</option>
+                    {% endfor%}
+                </select>
+                <label for="floatingSelect">Select User Roles <span>*</span></label>
+            </div>
+
+
+
+            <div class="form-group mb-3">
+              <label for="inputEmail3" class="col-sm-4 control-label">Date of Birth</label>
+              <div class="col-sm-8">
+               <input type="date" class="text-box form-control" id="datepicker-dob" name="date_of_birth">
+              </div>
+            </div>
+
+            <div class="form-floating mb-3">
+                  <input type="email" class="form-control" id="floatingInput" name="email"
+                      placeholder="name@example.com">
+                  <label for="floatingInput">Email address</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="floatingInput" name="mobile"
+                      placeholder="+1XXXXXXXXX">
+                  <label for="floatingInput">Mobile *</label>
+              </div>
+
+            <div class=" mb-3">
+              <label for="text" class="col-sm-4 control-label">Permissions</label>
+              <select class="form-select js-example-basic-multiple" id="user_permissions" name="user_permissions" multiple="multiple" aria-label="multiple select example">
+              {% for permission in permissions %}
+                <option value="{{ permission.id }}">{{permission.name}}</option>
+              {% endfor %}
+              </select>
+                
+            </div>
+          </div>
+          <!--div 1 of fomr ends above-->
+          <!--div 2 of form starts below-->
+          <div class="box-form">
+          <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput" name="country"
+                    placeholder="Kenya">
+                <label for="floatingInput">Country *</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput" name="county"
+                    placeholder="county">
+                <label for="floatingInput">County *</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput" name="subcounty"
+                    placeholder="subcounty">
+                <label for="floatingInput">Sub County*</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput" name="city"
+                    placeholder="city">
+                <label for="floatingInput">City *</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput" name="area"
+                    placeholder="area">
+                <label for="floatingInput">Area *</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="floatingInput" name="pincode"
+                    placeholder="pincode(6 digits)">
+                <label for="floatingInput">Pin Code *</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                  <input type="text" class="form-control" id="floatingInput" name="username"
+                      placeholder="john/jane">
+                  <label for="floatingInput">User Name *</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="floatingPassword" name="password"
+                    placeholder="Password">
+                <label for="floatingPassword">Password</label>
+            </div>
+
+          </div>
+          <!--branch 2 ends above-->
+          <!--btn row-->
+          <br/>
+          <div class="btns-row" style="margin-top: -10px;">
+            <div class="form-group btns align-btns">
+              <button class="btn btn-success mx-2 px-3" ><i class="fa fa-check padd"></i>Submit</button>
+              <button class="btn btn-dark mx-2 px-3" type="reset"><i class="fa fa-times padd"></i>Cancel</button>
+            </div>
+          </div>
+          <!--btn row ends above-->
+        </form>
+      
+    </div>
+    <!--form div ends above-->
+  </div>
+</main>
+<!--content ends above-->
+{% endblock content %}
+{% block extra_js %}
+<script type="text/javascript">
+        if (datefield.type!="date"){ //if browser doesn't support input type="date", initialize date picker widget:
+            jQuery(function($){ //on document.ready
+                $('#Date').datepicker({
+                    dateFormat: 'yyyy-mm-dd',
+                    showOtherMonths: true,
+                    selectOtherMonths: true,
+                    changeMonth: true,
+                });
+            })
+        }
+    </script>
+{% endblock extra_js %}
